@@ -16,7 +16,7 @@
 
 
 -- Volcando estructura de base de datos para prueba
-CREATE DATABASE IF NOT EXISTS `prueba` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `prueba` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `prueba`;
 
 -- Volcando estructura para tabla prueba.administradores
@@ -25,13 +25,13 @@ CREATE TABLE IF NOT EXISTS `administradores` (
   `nombre` text NOT NULL,
   `email` text NOT NULL,
   `cargo` varchar(50) NOT NULL,
-  `foto` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `foto` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `usuario` varchar(20) NOT NULL DEFAULT '',
   `password` text NOT NULL,
   `perfil` text NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla prueba.administradores: ~3 rows (aproximadamente)
 INSERT INTO `administradores` (`id`, `nombre`, `email`, `cargo`, `foto`, `usuario`, `password`, `perfil`, `fecha`) VALUES
@@ -62,10 +62,10 @@ CREATE TABLE IF NOT EXISTS `dispositivos` (
   `tipodispositivo` varchar(20) NOT NULL,
   `marcadispositivo` varchar(20) NOT NULL,
   `modelodispositivo` varchar(20) NOT NULL,
-  `imeidispositivo` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `imeidispositivo` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `seriedispositivo` varchar(20) NOT NULL,
-  `telefonodispositivo` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `accesorios` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `telefonodispositivo` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `accesorios` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `responsabledispositivo` int DEFAULT NULL,
   `sededispositivo` int DEFAULT NULL,
   `estadodispositivo` int NOT NULL,
@@ -81,25 +81,25 @@ CREATE TABLE IF NOT EXISTS `dispositivos` (
   UNIQUE KEY `imeidispositivo` (`imeidispositivo`),
   KEY `FKresponsabledispositivo` (`responsabledispositivo`),
   CONSTRAINT `FKresponsabledispositivo` FOREIGN KEY (`responsabledispositivo`) REFERENCES `consultores` (`idconsultor`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla prueba.dispositivos: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla prueba.marcadispositivo
 CREATE TABLE IF NOT EXISTS `marcadispositivo` (
   `idmarca` int NOT NULL AUTO_INCREMENT,
-  `nombremarca` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `nombremarca` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idmarca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla prueba.marcadispositivo: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla prueba.modelodispositivo
 CREATE TABLE IF NOT EXISTS `modelodispositivo` (
   `idmodelo` int NOT NULL AUTO_INCREMENT,
-  `nombremodelo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `nombremodelo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idmodelo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla prueba.modelodispositivo: ~0 rows (aproximadamente)
 
@@ -107,41 +107,41 @@ CREATE TABLE IF NOT EXISTS `modelodispositivo` (
 CREATE TABLE IF NOT EXISTS `registros` (
   `id` int NOT NULL AUTO_INCREMENT,
   `fecha_asignacion` timestamp NULL DEFAULT NULL,
-  `nombre_asignador` varchar(30) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `nombre_asignador` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `usuario_campo_id` int DEFAULT NULL,
   `sede_id` int DEFAULT NULL,
   `dispositivo_id` int DEFAULT NULL,
-  `tipo_dispositivo` varchar(20) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `accesorios_entregados` text COLLATE utf8mb3_unicode_ci,
-  `accesorios_recuperados` text COLLATE utf8mb3_unicode_ci,
+  `tipo_dispositivo` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `accesorios_entregados` text COLLATE utf8mb4_unicode_ci,
+  `accesorios_recuperados` text COLLATE utf8mb4_unicode_ci,
   `fecha_recepcion` timestamp NULL DEFAULT NULL,
-  `nombre_receptor` varchar(50) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `comentario` varchar(500) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `nombre_receptor` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comentario` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_modificacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `sede_id` (`sede_id`),
   KEY `dispositivo_id` (`dispositivo_id`),
   CONSTRAINT `FK1restriccionregistros` FOREIGN KEY (`dispositivo_id`) REFERENCES `dispositivos` (`iddispositivo`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla prueba.registros: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla prueba.sedes
 CREATE TABLE IF NOT EXISTS `sedes` (
   `idsede` int NOT NULL AUTO_INCREMENT,
-  `nombresede` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `nombresede` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `departamentosede` varchar(50) NOT NULL,
   PRIMARY KEY (`idsede`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Volcando datos para la tabla prueba.sedes: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla prueba.tipodispositivo
 CREATE TABLE IF NOT EXISTS `tipodispositivo` (
   `idtipo` int NOT NULL AUTO_INCREMENT,
-  `nombretipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `nombretipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idtipo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla prueba.tipodispositivo: ~0 rows (aproximadamente)
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `wiki` (
   PRIMARY KEY (`idwiki`),
   KEY `FK1reporta` (`reportaproblema`),
   CONSTRAINT `FK1reporta` FOREIGN KEY (`reportaproblema`) REFERENCES `administradores` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla prueba.wiki: ~0 rows (aproximadamente)
 
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `wikicolaboraciones` (
   KEY `idwiki` (`idwiki`),
   CONSTRAINT `FK1colabora` FOREIGN KEY (`idcolabora`) REFERENCES `administradores` (`id`),
   CONSTRAINT `FK2wiki` FOREIGN KEY (`idwiki`) REFERENCES `wiki` (`idwiki`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla prueba.wikicolaboraciones: ~0 rows (aproximadamente)
 
