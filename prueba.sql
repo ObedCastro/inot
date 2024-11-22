@@ -29,15 +29,19 @@ CREATE TABLE IF NOT EXISTS `administradores` (
   `usuario` varchar(20) NOT NULL DEFAULT '',
   `password` text NOT NULL,
   `perfil` text NOT NULL,
+  `estatus` tinytext,
+  `sedeasignada` tinytext,
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usuario` (`usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 
--- Volcando datos para la tabla prueba.administradores: ~3 rows (aproximadamente)
-INSERT INTO `administradores` (`id`, `nombre`, `email`, `cargo`, `foto`, `usuario`, `password`, `perfil`, `fecha`) VALUES
-	(1, 'Obed Alberto Castro Orellana', 'obed.castro@bcr.gob.sv', 'Técnico de Soporte Informático', 'vistas/assets/img', 'inobed', '21232f297a57a5a743894a0e4a801fc3', '1', '2024-10-15 20:18:49'),
-	(2, 'Miguel Ángel Portillo Lozano', 'miguel.portillo@bcr.gob.sv', 'Técnico de Soporte Informático', 'vistas/assets/img', 'inportillo', '10f7b050d847840fcaba56494ba2c099', '1', '2024-10-16 21:13:23'),
-	(3, 'Usuario test', 'usuario@test.com', 'Cargo del usuario test', 'vistas/assets/img', 'test', '098f6bcd4621d373cade4e832627b4f6', '3', '2024-10-16 21:13:26');
+-- Volcando datos para la tabla prueba.administradores: ~4 rows (aproximadamente)
+INSERT INTO `administradores` (`id`, `nombre`, `email`, `cargo`, `foto`, `usuario`, `password`, `perfil`, `estatus`, `sedeasignada`, `fecha`) VALUES
+	(1, 'Obed Alberto Castro Orellana', 'obed.castro@bcr.gob.sv', 'Técnico de Soporte Informático', 'vistas/assets/img', 'inobed', '21232f297a57a5a743894a0e4a801fc3', '1', 'Consultor BID', '1', '2024-11-08 19:53:12'),
+	(2, 'Miguel Ángel Portillo Lozano', 'miguel.portillo@bcr.gob.sv', 'Técnico de Soporte Informático', 'vistas/assets/img', 'inportillo', '10f7b050d847840fcaba56494ba2c099', '1', 'Consultor BID', '1', '2024-11-08 19:53:16'),
+	(3, 'Usuario Permisos de Usuario', 'usuario@test.com', 'Cargo del usuario test', 'vistas/assets/img', 'usuario', 'f8032d5cae3de20fcec887f395ec9a6a', '2', 'Contrato test', '2', '2024-11-11 13:40:16'),
+	(4, 'Usuario Permisos de Solo Ver', 'qqq@qqq.com', 'Analista de cuentas bancarias', 'vistas/assets/img', 'ver', '0812f14f43315611dd0ef462515c9d00', '3', 'Banco Central de Reserva 01', '2', '2024-11-08 19:55:57');
 
 -- Volcando estructura para tabla prueba.consultores
 CREATE TABLE IF NOT EXISTS `consultores` (
@@ -48,11 +52,12 @@ CREATE TABLE IF NOT EXISTS `consultores` (
   `contactoconsultor` varchar(11) COLLATE utf8mb4_general_ci NOT NULL,
   `dispositivo_id` int DEFAULT NULL,
   `sedeconsultor` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `estatusconsultor` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `fechaactualizacionconsultor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `fecharegistroconsultor` date DEFAULT NULL,
   PRIMARY KEY (`idconsultor`),
   UNIQUE KEY `duiconsultor` (`duiconsultor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla prueba.consultores: ~0 rows (aproximadamente)
 
@@ -65,6 +70,8 @@ CREATE TABLE IF NOT EXISTS `dispositivos` (
   `imeidispositivo` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `seriedispositivo` varchar(20) NOT NULL,
   `telefonodispositivo` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `inventariodispositivo` varchar(9) DEFAULT NULL,
+  `hostnamedispositivo` varchar(50) DEFAULT NULL,
   `accesorios` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `responsabledispositivo` int DEFAULT NULL,
   `sededispositivo` int DEFAULT NULL,
@@ -79,9 +86,11 @@ CREATE TABLE IF NOT EXISTS `dispositivos` (
   PRIMARY KEY (`iddispositivo`),
   UNIQUE KEY `seriedispositivo` (`seriedispositivo`),
   UNIQUE KEY `imeidispositivo` (`imeidispositivo`),
+  UNIQUE KEY `inventariodispositivo` (`inventariodispositivo`),
+  UNIQUE KEY `hostnamedispositivo` (`hostnamedispositivo`),
   KEY `FKresponsabledispositivo` (`responsabledispositivo`),
   CONSTRAINT `FKresponsabledispositivo` FOREIGN KEY (`responsabledispositivo`) REFERENCES `consultores` (`idconsultor`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=531 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla prueba.dispositivos: ~0 rows (aproximadamente)
 
@@ -90,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `marcadispositivo` (
   `idmarca` int NOT NULL AUTO_INCREMENT,
   `nombremarca` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`idmarca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla prueba.marcadispositivo: ~0 rows (aproximadamente)
 
@@ -99,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `modelodispositivo` (
   `idmodelo` int NOT NULL AUTO_INCREMENT,
   `nombremodelo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`idmodelo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla prueba.modelodispositivo: ~0 rows (aproximadamente)
 
@@ -122,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `registros` (
   KEY `sede_id` (`sede_id`),
   KEY `dispositivo_id` (`dispositivo_id`),
   CONSTRAINT `FK1restriccionregistros` FOREIGN KEY (`dispositivo_id`) REFERENCES `dispositivos` (`iddispositivo`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- Volcando datos para la tabla prueba.registros: ~0 rows (aproximadamente)
 
@@ -132,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `sedes` (
   `nombresede` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `departamentosede` varchar(50) NOT NULL,
   PRIMARY KEY (`idsede`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3;
 
 -- Volcando datos para la tabla prueba.sedes: ~0 rows (aproximadamente)
 
@@ -141,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `tipodispositivo` (
   `idtipo` int NOT NULL AUTO_INCREMENT,
   `nombretipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`idtipo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla prueba.tipodispositivo: ~0 rows (aproximadamente)
 
@@ -156,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `wiki` (
   PRIMARY KEY (`idwiki`),
   KEY `FK1reporta` (`reportaproblema`),
   CONSTRAINT `FK1reporta` FOREIGN KEY (`reportaproblema`) REFERENCES `administradores` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla prueba.wiki: ~0 rows (aproximadamente)
 
@@ -184,7 +193,7 @@ CREATE TRIGGER `actualizar_registros` AFTER UPDATE ON `dispositivos` FOR EACH RO
         INSERT INTO registros (fecha_asignacion, usuario_campo_id, sede_id, dispositivo_id, tipo_dispositivo, accesorios_entregados, nombre_asignador)
         VALUES (NEW.fechaasignacion, NEW.responsabledispositivo, NEW.sededispositivo, NEW.iddispositivo, NEW.tipodispositivo, NEW.accesorios, NEW.asignadordispositivo);
 
-    ELSEIF NEW.estadodispositivo = 1  OR NEW.estadodispositivo = 3 THEN
+    ELSEIF NEW.estadodispositivo = 1  OR NEW.estadodispositivo = 3 OR NEW.estadodispositivo = 4 THEN
         UPDATE registros
         SET fecha_recepcion = NEW.fecharecepcion, accesorios_recuperados = NEW.accesorios, nombre_receptor = NEW.receptordispositivo, comentario = NEW.comentariodispositivo
         WHERE dispositivo_id = OLD.iddispositivo AND fecha_asignacion = OLD.fechaasignacion AND usuario_campo_id = OLD.responsabledispositivo;
